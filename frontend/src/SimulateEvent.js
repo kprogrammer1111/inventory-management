@@ -9,6 +9,8 @@ function SimulateEvent({ onEventSent }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
+  const API_BASE = process.env.REACT_APP_API_BASE_URL;
+
   const sendEvent = async () => {
     setLoading(true);
     setMessage('');
@@ -21,7 +23,7 @@ function SimulateEvent({ onEventSent }) {
     if (type === 'purchase') event.unit_price = Number(unitPrice);
 
     try {
-      await axios.post('http://localhost:3000/api/simulate-event', event);
+      await axios.post(`${API_BASE}/api/simulate-event`, event);
       setMessage('✅ Event sent!');
       if (onEventSent) onEventSent();
     } catch (err) {

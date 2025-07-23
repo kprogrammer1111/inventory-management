@@ -10,15 +10,17 @@ function App() {
   const [auth, setAuth] = useState({ username: 'admin', password: 'Admin@123' });
   const [token, setToken] = useState(null);
 
+  const API_BASE = process.env.REACT_APP_API_BASE_URL;
+
   const fetchProducts = async () => {
-    const res = await axios.get('http://localhost:3000/api/products', {
+    const res = await axios.get(`${API_BASE}/api/products`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setProducts(res.data);
   };
 
   const fetchSales = async () => {
-    const res = await axios.get('http://localhost:3000/api/sales', {
+    const res = await axios.get(`${API_BASE}/api/sales`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setSales(res.data);
@@ -39,7 +41,7 @@ function App() {
   const login = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/api/login', {
+      const res = await axios.post(`${API_BASE}/api/login`, {
         username: auth.username,
         password: auth.password
       });
