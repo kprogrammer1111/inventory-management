@@ -3,7 +3,13 @@ const { Kafka } = require('kafkajs');
 
 const kafka = new Kafka({
   clientId: 'inventory-producer',
-  brokers: ['localhost:9092'],
+  brokers: process.env.KAFKA_BROKERS ? process.env.KAFKA_BROKERS.split(',') : ['127.0.0.1:9092'],
+  ssl: !!process.env.KAFKA_SSL,
+  sasl: process.env.KAFKA_USERNAME && process.env.KAFKA_PASSWORD ? {
+    mechanism: process.env.KAFKA_SASL_MECHANISM || 'plain',
+    username: process.env.KAFKA_USERNAME,
+    password: process.env.KAFKA_PASSWORD,
+  } : undefined,
 });
 
 const producer = kafka.producer();
